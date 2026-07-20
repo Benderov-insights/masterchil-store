@@ -108,6 +108,7 @@
     if (!element) return;
     element.classList.remove("is-open");
     element.setAttribute("aria-hidden", "true");
+    if (element.classList.contains("cart-drawer")) $(".cart-trigger").setAttribute("aria-expanded", "false");
     $(".scrim").classList.remove("is-active");
     if (activeLayer === element) activeLayer = null;
     if (!$(".mobile-nav").classList.contains("is-open")) document.body.classList.remove("no-scroll");
@@ -188,6 +189,7 @@
   function openCart() {
     renderCart();
     openLayer($(".cart-drawer"));
+    $(".cart-trigger").setAttribute("aria-expanded", "true");
     const entries = cartEntries();
     analytics.track("view_cart", {}, { ecommerce: { currency: config.currency, value: totals().subtotal, items: entries.map(({ product, qty }, index) => gaItem(product, qty, index)) } });
   }
@@ -326,6 +328,12 @@
 
   function bindEvents() {
     document.addEventListener("click", (event) => {
+      const cartTrigger = event.target.closest(".cart-trigger");
+      if (cartTrigger) {
+        event.preventDefault();
+        openCart();
+        return;
+      }
       const scrollButton = event.target.closest("[data-scroll-to]");
       if (scrollButton) {
         document.getElementById(scrollButton.dataset.scrollTo)?.scrollIntoView({ behavior: "smooth" });
@@ -367,7 +375,6 @@
       analytics.track("sort_products", { sort: event.target.value });
     });
 
-    $(".cart-trigger").addEventListener("click", openCart);
     $(".cart-close").addEventListener("click", () => closeLayer($(".cart-drawer")));
     $(".cart-browse").addEventListener("click", () => { closeLayer($(".cart-drawer")); $("#catalog").scrollIntoView({ behavior: "smooth" }); });
     $(".cart-items").addEventListener("click", (event) => {
