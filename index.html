@@ -61,7 +61,7 @@
         <button class="icon-btn auth-trigger" aria-label="Sign in">
           <svg><use href="#i-user"></use></svg><span class="nav-action-label auth-label">Sign in</span>
         </button>
-        <button class="icon-btn cart-trigger" aria-label="Open cart">
+        <button class="icon-btn cart-trigger" type="button" aria-label="Open cart" aria-expanded="false" aria-controls="cart-drawer">
           <svg><use href="#i-bag"></use></svg><span class="cart-count" aria-live="polite">0</span>
         </button>
         <button class="menu-trigger" aria-label="Open menu" aria-expanded="false"><i></i><i></i></button>
@@ -215,7 +215,7 @@
 
   <div class="scrim" aria-hidden="true"></div>
 
-  <aside class="drawer cart-drawer" aria-label="Cart" aria-hidden="true">
+  <aside class="drawer cart-drawer" id="cart-drawer" aria-label="Cart" aria-hidden="true">
     <div class="drawer__head"><div><p class="kicker">Your selection</p><h2>Cart <sup class="drawer-count">0</sup></h2></div><button class="modal-close cart-close" aria-label="Close cart"><svg><use href="#i-close"></use></svg></button></div>
     <div class="free-shipping"><div><span></span></div><p>Add <strong class="shipping-left">€200</strong> more for complimentary delivery</p></div>
     <div class="cart-items"></div>
