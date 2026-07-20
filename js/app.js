@@ -187,7 +187,6 @@
   }
 
   function openCart() {
-    renderCart();
     openLayer($(".cart-drawer"));
     $(".cart-trigger").setAttribute("aria-expanded", "true");
     const entries = cartEntries();
