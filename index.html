@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Masterchil Store — thoughtful technology for home and work. A complete e-commerce experience with GA4-ready analytics.">
+  <meta name="theme-color" content="#111310">
+  <meta property="og:title" content="Masterchil Store — Objects for better days">
+  <meta property="og:description" content="Thoughtful objects designed to stay close.">
+  <meta property="og:image" content="assets/hero.webp">
+  <meta property="og:type" content="website">
+  <title>Masterchil Store — Objects for better days</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/hero.webp" as="image" type="image/webp">
+  <link rel="stylesheet" href="styles.css">
+  <script src="js/config.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="loader" aria-hidden="true">
+    <div class="loader__mark">N<span>O</span>VA</div>
+    <div class="loader__line"><i></i></div>
+  </div>
+
+  <svg class="icon-sprite" aria-hidden="true">
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m16.4 16.4 4 4"></path></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1 13H6L5 8Z"></path><path d="M9 9V6a3 3 0 0 1 6 0v3"></path></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"></path></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M14 6l6 6-6 6"></path></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m5 5 14 14M19 5 5 19"></path></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"></path></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"></path></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 5h11v12H3zM14 9h4l3 4v4h-7z"></path><circle cx="7" cy="19" r="2"></circle><circle cx="18" cy="19" r="2"></circle></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.4 8.2-8 10-4.6-1.8-8-5-8-10V6l8-3Z"></path><path d="m8.5 12 2.3 2.3 4.8-5"></path></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"></path><path d="M6.1 8a7 7 0 0 1 11.8-2L20 8M4 16l2.1 2A7 7 0 0 0 18 16"></path></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L20 6.5"></path></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m8 10 4 4 4-4"></path></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m4 7 8 6 8-6"></path></symbol>
+  </svg>
+
+  <header class="site-header" id="top">
+    <div class="announcement">
+      <p>Complimentary delivery across Germany over €200</p>
+      <button class="announcement__link" data-scroll-to="catalog" data-analytics-event="select_promotion" data-analytics-params='{"promotion_id":"free_shipping","promotion_name":"Complimentary shipping"}'>Explore the collection <span>↗</span></button>
+    </div>
+    <div class="nav-shell">
+      <a class="brand" href="#top" aria-label="Masterchil Store, home">M<span>A</span>STERCHIL<small>store</small></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#catalog">Shop</a>
+        <a href="#philosophy">About</a>
+        <a href="#journal">Journal</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn search-trigger" aria-label="Search">
+          <svg><use href="#i-search"></use></svg><span class="nav-action-label">Search</span>
+        </button>
+        <button class="icon-btn auth-trigger" aria-label="Sign in">
+          <svg><use href="#i-user"></use></svg><span class="nav-action-label auth-label">Sign in</span>
+        </button>
+        <button class="icon-btn cart-trigger" aria-label="Open cart">
+          <svg><use href="#i-bag"></use></svg><span class="cart-count" aria-live="polite">0</span>
+        </button>
+        <button class="menu-trigger" aria-label="Open menu" aria-expanded="false"><i></i><i></i></button>
+      </div>
+    </div>
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+      <a href="#catalog">Shop <span>01</span></a>
+      <a href="#philosophy">About <span>02</span></a>
+      <a href="#journal">Journal <span>03</span></a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__glow"></div>
+      <div class="hero__media" aria-hidden="true">
+        <img src="assets/hero.webp" alt="" width="1536" height="1024">
+        <div class="hero__scan"></div>
+        <div class="hero__tag hero__tag--one"><span></span> 360° sound</div>
+        <div class="hero__tag hero__tag--two"><span></span> tactile design</div>
+      </div>
+      <div class="hero__content container">
+        <div class="hero__eyebrow reveal"><span>Collection 01 / 2026</span><span>Berlin · Singapore</span></div>
+        <h1 id="hero-title" class="reveal">Objects that<br><em>tune</em> your day.</h1>
+        <p class="hero__lead reveal">Thoughtful design without the digital noise. Technology made to feel good, look beautiful, and work effortlessly every day.</p>
+        <div class="hero__actions reveal">
+          <button class="button button--accent magnetic" data-scroll-to="catalog">Explore the collection <svg><use href="#i-arrow"></use></svg></button>
+          <button class="text-link video-trigger">Watch our story <span class="play-dot">▶</span></button>
+        </div>
+        <div class="hero__foot reveal">
+          <p><strong>4.9</strong> / 5</p>
+          <div class="mini-avatars" aria-label="More than 2,400 customers"><i></i><i></i><i></i></div>
+          <span>Chosen by 2,400+ design lovers</span>
+        </div>
+      </div>
+      <button class="scroll-cue" data-scroll-to="catalog" aria-label="Scroll to the collection"><span></span>scroll</button>
+    </section>
+
+    <section class="ticker" aria-label="Benefits">
+      <div class="ticker__track">
+        <span>Design made to last</span><i>✦</i><span>2-year warranty</span><i>✦</i><span>Delivery across Germany</span><i>✦</i><span>Considered materials</span><i>✦</i>
+        <span>Design made to last</span><i>✦</i><span>2-year warranty</span><i>✦</i><span>Delivery across Germany</span><i>✦</i><span>Considered materials</span><i>✦</i>
+      </div>
+    </section>
+
+    <section class="catalog section container" id="catalog" aria-labelledby="catalog-title">
+      <div class="section-head reveal">
+        <div>
+          <p class="kicker">Selected objects</p>
+          <h2 id="catalog-title">Beauty,<br><em>made useful.</em></h2>
+        </div>
+        <p class="section-note">Every object passes a 30-day studio test. We keep only what we continue to use ourselves.</p>
+      </div>
+      <div class="catalog-toolbar reveal">
+        <div class="filters" role="group" aria-label="Product filters">
+          <button class="filter is-active" data-category="all">All <sup>6</sup></button>
+          <button class="filter" data-category="sound">Sound <sup>3</sup></button>
+          <button class="filter" data-category="light">Light <sup>2</sup></button>
+          <button class="filter" data-category="sets">Sets <sup>1</sup></button>
+        </div>
+        <label class="sort-select">Sort by
+          <select id="sort-products" aria-label="Sort products">
+            <option value="featured">Featured</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+            <option value="new">Newest first</option>
+          </select>
+          <svg><use href="#i-chevron"></use></svg>
+        </label>
+      </div>
+      <div class="product-grid" id="product-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="manifesto section" id="philosophy">
+      <div class="manifesto__inner container">
+        <p class="kicker reveal">The Masterchil manifesto</p>
+        <blockquote class="reveal">We believe good objects never ask for attention. They <em>give it back</em> to what truly matters.</blockquote>
+        <div class="manifesto__meta reveal"><span>01 — Function</span><span>02 — Tactility</span><span>03 — Quiet</span></div>
+      </div>
+    </section>
+
+    <section class="bento section container" aria-labelledby="bento-title">
+      <div class="section-head reveal">
+        <div><p class="kicker">Why Masterchil</p><h2 id="bento-title">Considered down<br><em>to every gesture.</em></h2></div>
+      </div>
+      <div class="bento__grid">
+        <article class="bento-card bento-card--lime reveal spotlight-card" id="returns">
+          <span class="bento-card__index">01</span>
+          <div class="sound-rings" aria-hidden="true"><i></i><i></i><i></i><b></b></div>
+          <div><h3>30 days to decide</h3><p>Live with the object. If the chemistry is not there, we will collect it free of charge.</p></div>
+        </article>
+        <article class="bento-card bento-card--dark reveal spotlight-card">
+          <span class="bento-card__index">02</span>
+          <div class="material-swatch" aria-hidden="true"><span>AL</span><i>6061</i></div>
+          <div><h3>Materials with a past</h3><p>Recycled aluminium, enduring textiles, and plastic-free packaging.</p></div>
+        </article>
+        <article class="bento-card bento-card--light reveal spotlight-card" id="delivery">
+          <span class="bento-card__index">03</span>
+          <div class="warranty-mark" aria-hidden="true"><strong>2</strong><span>years<br>of care</span></div>
+          <div><h3>Human service</h3><p>Real people answer the chat and solve the issue from the very first message.</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="journal section" id="journal">
+      <div class="journal__visual" aria-hidden="true"><img src="assets/echo.webp" alt="" loading="lazy"><span>N / NOTES</span></div>
+      <div class="journal__copy reveal">
+        <p class="kicker">Masterchil Journal · 04</p>
+        <h2>How to bring<br><em>quiet home?</em></h2>
+        <p>Seven simple principles, from lighting rituals to a more intentional relationship with notifications.</p>
+        <a href="#newsletter" class="text-arrow" data-analytics-event="select_content" data-analytics-params='{"content_type":"journal","item_id":"home_silence"}'>Read the story <svg><use href="#i-arrow"></use></svg></a>
+      </div>
+    </section>
+
+    <section class="newsletter section container" id="newsletter">
+      <div class="newsletter__orb" aria-hidden="true"></div>
+      <div class="newsletter__inner reveal">
+        <p class="kicker">Letters without noise</p>
+        <h2>Once a month.<br><em>Only what matters.</em></h2>
+        <p>New objects, honest reviews, and ideas for your space. Subscribe for 10% off your first order.</p>
+        <form id="newsletter-form" class="newsletter__form">
+          <label class="sr-only" for="newsletter-email">Your email</label>
+          <input id="newsletter-email" type="email" placeholder="you@example.com" autocomplete="email" required>
+          <button type="submit" aria-label="Subscribe"><svg><use href="#i-arrow"></use></svg></button>
+        </form>
+        <small>By subscribing, you agree to our privacy policy.</small>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__top container">
+      <a class="brand brand--footer" href="#top">M<span>A</span>STERCHIL<small>store</small></a>
+      <p>Objects for<br>better days.</p>
+      <div class="footer__nav"><span>Shop</span><a href="#catalog">Collection</a><a href="#philosophy">Philosophy</a><a href="#journal">Journal</a></div>
+      <div class="footer__nav"><span>Help</span><a href="#delivery">Delivery</a><a href="#returns">Returns</a><a href="mailto:hello@example.com">Contact</a></div>
+      <div class="footer__nav"><span>Stay close</span><a href="#" rel="nofollow">Telegram</a><a href="#" rel="nofollow">Instagram</a><button class="analytics-lab-trigger">Analytics Lab</button></div>
+    </div>
+    <div class="footer__bottom container"><span>© 2026 Masterchil Store</span><span>Germany · EUR · VAT included</span><button class="privacy-settings">Cookie settings</button></div>
+  </footer>
+
+  <div class="search-overlay" role="dialog" aria-modal="true" aria-label="Search" aria-hidden="true">
+    <button class="modal-close search-close" aria-label="Close search"><svg><use href="#i-close"></use></svg></button>
+    <div class="search-overlay__inner">
+      <span class="kicker">Search the collection</span>
+      <form id="search-form"><svg><use href="#i-search"></use></svg><input id="search-input" type="search" placeholder="What are you looking for?" autocomplete="off"><button type="submit">Search</button></form>
+      <div class="search-suggestions"><span>Popular:</span><button>Orbit One</button><button>Light</button><button>Sound</button></div>
+      <div id="search-results" class="search-results"></div>
+    </div>
+  </div>
+
+  <div class="scrim" aria-hidden="true"></div>
+
+  <aside class="drawer cart-drawer" aria-label="Cart" aria-hidden="true">
+    <div class="drawer__head"><div><p class="kicker">Your selection</p><h2>Cart <sup class="drawer-count">0</sup></h2></div><button class="modal-close cart-close" aria-label="Close cart"><svg><use href="#i-close"></use></svg></button></div>
+    <div class="free-shipping"><div><span></span></div><p>Add <strong class="shipping-left">€200</strong> more for complimentary delivery</p></div>
+    <div class="cart-items"></div>
+    <div class="cart-empty"><div class="empty-orbit"><svg><use href="#i-bag"></use></svg></div><h3>Quiet in here</h3><p>Add an object designed to tune your day.</p><button class="button button--dark cart-browse">Explore the collection</button></div>
+    <div class="cart-summary">
+      <form class="promo-form"><label for="promo">Promo code</label><div><input id="promo" placeholder="Try MASTER10"><button type="submit">Apply</button></div><small class="promo-message"></small></form>
+      <div class="summary-row"><span>Subtotal</span><strong class="subtotal">€0</strong></div>
+      <div class="summary-row discount-row" hidden><span>Discount</span><strong class="discount">−€0</strong></div>
+      <div class="summary-row"><span>Delivery</span><strong class="delivery-price">€6</strong></div>
+      <div class="summary-row"><span>VAT included</span><strong>19%</strong></div>
+      <div class="summary-row summary-total"><span>Total</span><strong class="total">€0</strong></div>
+      <button class="button button--accent checkout-trigger">Proceed to checkout <svg><use href="#i-arrow"></use></svg></button>
+      <p class="secure-note"><svg><use href="#i-shield"></use></svg> Secure demo checkout · no charges</p>
+    </div>
+  </aside>
+
+  <div class="modal product-modal" role="dialog" aria-modal="true" aria-label="Quick product view" aria-hidden="true">
+    <button class="modal-close product-close" aria-label="Close"><svg><use href="#i-close"></use></svg></button>
+    <div class="product-modal__media"><img src="assets/orbit.webp" alt="" class="product-modal__image"><span class="product-modal__badge"></span></div>
+    <div class="product-modal__copy">
+      <p class="kicker product-modal__category"></p><h2 class="product-modal__name"></h2><p class="product-modal__desc"></p>
+      <div class="product-modal__rating"><span>★★★★★</span><button>4.9 · 128 reviews</button></div>
+      <div class="product-modal__price"></div>
+      <div class="color-picker"><span>Color: <strong class="selected-color">Graphite</strong></span><div><button class="color is-active" style="--color:#262825" data-color="Graphite" aria-label="Graphite"></button><button class="color" style="--color:#dedbd1" data-color="Warm white" aria-label="Warm white"></button><button class="color" style="--color:#a8b732" data-color="Lime" aria-label="Lime"></button></div></div>
+      <button class="button button--accent product-add">Add to cart <svg><use href="#i-arrow"></use></svg></button>
+      <div class="product-perks"><span><svg><use href="#i-truck"></use></svg> Delivery in 1–3 days</span><span><svg><use href="#i-refresh"></use></svg> 30-day returns</span></div>
+    </div>
+  </div>
+
+  <div class="modal auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-title" aria-hidden="true">
+    <button class="modal-close auth-close" aria-label="Close"><svg><use href="#i-close"></use></svg></button>
+    <div class="auth-visual"><div class="auth-visual__orb"></div><p>Save your favorites.<br>Follow your orders.<br><em>Come back to your own.</em></p></div>
+    <div class="auth-panel">
+      <p class="kicker">MASTERCHIL ID</p><h2 id="auth-title">Welcome back.</h2>
+      <div class="auth-tabs" role="tablist"><button class="is-active" data-auth-mode="login" role="tab">Sign in</button><button data-auth-mode="register" role="tab">Create account</button></div>
+      <form id="auth-form">
+        <label class="name-field" hidden>Name<input name="name" autocomplete="name" placeholder="What should we call you?"></label>
+        <label>Email<input name="email" type="email" autocomplete="email" placeholder="you@example.com" required></label>
+        <label>Password<span><input name="password" type="password" minlength="6" autocomplete="current-password" placeholder="At least 6 characters" required><button class="password-toggle" type="button">Show</button></span></label>
+        <div class="auth-options"><label><input type="checkbox" checked> Remember me</label><button type="button" class="forgot-trigger">Forgot password?</button></div>
+        <button type="submit" class="button button--dark auth-submit">Sign in <svg><use href="#i-arrow"></use></svg></button>
+        <p class="auth-status" role="status"></p>
+      </form>
+      <p class="demo-note"><svg><use href="#i-shield"></use></svg><span><strong>Demo authentication.</strong> Data stays in your browser. Connect Firebase, Supabase, or your own backend for production.</span></p>
+    </div>
+  </div>
+
+  <div class="modal checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title" aria-hidden="true">
+    <button class="modal-close checkout-close" aria-label="Close"><svg><use href="#i-close"></use></svg></button>
+    <div class="checkout-main">
+      <p class="kicker">Checkout</p><h2 id="checkout-title">Almost yours.</h2>
+      <div class="checkout-steps" aria-label="Checkout steps"><span class="is-active">1. Contact</span><span>2. Delivery</span><span>3. Payment</span></div>
+      <form id="checkout-form">
+        <div class="checkout-stage is-active" data-stage="1">
+          <label>Full name<input name="fullName" autocomplete="name" required></label>
+          <div class="field-row"><label>Email<input name="email" type="email" autocomplete="email" required></label><label>Phone<input name="phone" type="tel" autocomplete="tel" placeholder="+49 30 12345678" required></label></div>
+          <button class="button button--dark checkout-next" type="button">Continue <svg><use href="#i-arrow"></use></svg></button>
+        </div>
+        <div class="checkout-stage" data-stage="2">
+          <label>City<input name="city" autocomplete="address-level2" required></label><label>Address<input name="address" autocomplete="street-address" required></label>
+          <div class="delivery-options"><label class="is-active"><input type="radio" name="delivery" value="courier" checked><span><strong>Tracked courier</strong><small>1–3 days · €6</small></span></label><label><input type="radio" name="delivery" value="pickup"><span><strong>Pickup point</strong><small>2–4 days · complimentary</small></span></label></div>
+          <button class="button button--dark checkout-next" type="button">Continue to payment <svg><use href="#i-arrow"></use></svg></button>
+        </div>
+        <div class="checkout-stage" data-stage="3">
+          <div class="demo-payment"><svg><use href="#i-shield"></use></svg><div><strong>Demo payment</strong><p>No card details are requested and no charge will be made.</p></div></div>
+          <label>Name on card<input value="DEMO CUSTOMER" disabled></label><label>Card number<input value="•••• •••• •••• 4242" disabled></label>
+          <button class="button button--accent place-order" type="submit">Place demo order <svg><use href="#i-arrow"></use></svg></button>
+        </div>
+      </form>
+    </div>
+    <aside class="checkout-summary"><p class="kicker">Your order</p><div class="checkout-items"></div><div class="summary-row summary-total"><span>Total</span><strong class="checkout-total"></strong></div></aside>
+    <div class="order-success" hidden><div class="success-check"><svg><use href="#i-check"></use></svg></div><p class="kicker">Order confirmed</p><h2>Thank you.<br><em>That was beautiful.</em></h2><p>Demo order <strong class="order-id"></strong> has been created. No charge was made.</p><button class="button button--dark success-close">Back to the shop</button></div>
+  </div>
+
+  <div class="modal story-modal" role="dialog" aria-modal="true" aria-label="The Masterchil story" aria-hidden="true">
+    <button class="modal-close story-close" aria-label="Close"><svg><use href="#i-close"></use></svg></button>
+    <div class="story-visual"><img src="assets/hero.webp" alt="Masterchil Store collection"><button class="story-play" aria-label="Play the story">▶</button></div>
+    <div><p class="kicker">MASTERCHIL / 00:42</p><h2>Less noise.<br><em>More life.</em></h2><p>A short story about objects that never steal your attention — they give it back.</p></div>
+  </div>
+
+  <aside class="analytics-lab" aria-label="Analytics panel" aria-hidden="true">
+    <div class="analytics-lab__head"><div><span class="live-dot"></span><div><strong>Analytics Lab</strong><small>dataLayer event stream</small></div></div><button class="analytics-close" aria-label="Close"><svg><use href="#i-close"></use></svg></button></div>
+    <div class="analytics-lab__status"><span>GA4 <b class="ga-status">DEMO</b></span><span>Consent <b class="consent-status">—</b></span><span>Events <b class="event-count">0</b></span></div>
+    <div class="analytics-events"></div>
+    <div class="analytics-empty"><span>{ }</span><p>Events will appear as you interact with the site</p></div>
+    <div class="analytics-lab__actions"><button class="analytics-export">Export JSON</button><button class="analytics-clear">Clear</button></div>
+  </aside>
+
+  <div class="cookie-banner" role="dialog" aria-label="Cookie settings" aria-hidden="true">
+    <div><span class="cookie-icon">✦</span><div><strong>May we use analytics?</strong><p>We use GA4 to understand what helps and what gets in the way. Essential cookies always remain active.</p></div></div>
+    <div class="cookie-actions"><button class="cookie-essential">Essential only</button><button class="button button--accent cookie-accept">Accept all</button></div>
+  </div>
+
+  <div class="toast" role="status" aria-live="polite"><span></span><p></p></div>
+  <div class="cursor-orb" aria-hidden="true"></div>
+</body>
+</html>
