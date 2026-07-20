@@ -1,8 +1,8 @@
-# GA4 / GTM: карта внедрения Masterchil Store
+# Masterchil Store GA4 / GTM implementation map
 
-Сайт уже формирует `window.dataLayer` и отправляет рекомендованные Google Analytics события. До подключения реального ID они видны в **Analytics Lab**, поэтому схему можно проверить без загрязнения production-property.
+The storefront already creates `window.dataLayer` and emits recommended Google Analytics events. Before a real measurement ID is connected, every event is visible in **Analytics Lab**, so the implementation can be tested without polluting a production property.
 
-Официальные опорные материалы:
+Official references:
 
 - [GA4 ecommerce measurement](https://developers.google.com/analytics/devguides/collection/ga4/ecommerce)
 - [Recommended events reference](https://developers.google.com/analytics/devguides/collection/ga4/reference/events)
@@ -10,39 +10,39 @@
 - [Consent Mode setup](https://developers.google.com/tag-platform/security/guides/consent)
 - [GA4 ecommerce validation](https://developers.google.com/analytics/devguides/collection/ga4/validate-ecommerce)
 
-## 1. Архитектура
+## 1. Architecture
 
 ```text
 UI action
   → MASTERCHIL_ANALYTICS.track(event, params, { ecommerce })
     → window.dataLayer.push({ event, ...params, ecommerce })
-    → Analytics Lab (локальная проверка)
+    → Analytics Lab (local validation)
     → GTM container → Google tag / GA4 Event tag
 
-или
+or
 
     → direct gtag('event', event, params)
 ```
 
-`js/analytics.js` также очищает предыдущее ecommerce-состояние через `{ ecommerce: null }` перед каждым новым ecommerce push. Это предотвращает перенос массива `items` из прошлого события.
+Before every ecommerce push, `js/analytics.js` clears the previous ecommerce state with `{ ecommerce: null }`. This prevents the previous event's `items` array from leaking into the next event.
 
-## 2. Рекомендуемая установка через GTM
+## 2. Recommended installation with GTM
 
-### 2.1. Подготовьте GA4
+### 2.1 Prepare GA4
 
-1. Создайте GA4 property и Web data stream.
-2. Скопируйте Measurement ID формата `G-XXXXXXXXXX`.
-3. В `js/config.js` включите GTM и укажите Container ID.
-4. Оставьте прямой GA4 выключенным.
+1. Create a GA4 property and a Web data stream.
+2. Copy the Measurement ID in the `G-XXXXXXXXXX` format.
+3. Enable GTM in `js/config.js` and provide the Container ID.
+4. Keep direct GA4 disabled.
 
-### 2.2. Создайте базовый Google tag в GTM
+### 2.2 Create the base Google tag in GTM
 
-1. Создайте тег **Google tag**.
-2. Укажите GA4 Measurement ID.
-3. Trigger: **Initialization — All Pages**.
-4. Сохраните.
+1. Create a **Google tag**.
+2. Enter the GA4 Measurement ID.
+3. Set the trigger to **Initialization — All Pages**.
+4. Save the tag.
 
-Consent defaults выполняются в `analytics.js` до загрузки контейнера. По умолчанию:
+Consent defaults are set in `analytics.js` before the container loads:
 
 ```js
 analytics_storage: "denied"
@@ -53,32 +53,32 @@ functionality_storage: "granted"
 security_storage: "granted"
 ```
 
-После выбора пользователя код выполняет `gtag('consent', 'update', ...)` и создаёт `consent_update` в dataLayer.
+After the visitor makes a choice, the code runs `gtag('consent', 'update', ...)` and pushes `consent_update` to the data layer.
 
-### 2.3. Создайте ecommerce tag
+### 2.3 Create the ecommerce event tag
 
-1. Trigger type: **Custom Event**.
-2. Event name, regular expression:
+1. Use a **Custom Event** trigger.
+2. Set the event name to this regular expression:
 
 ```regex
 ^(view_item_list|select_item|view_item|add_to_cart|view_cart|remove_from_cart|begin_checkout|add_shipping_info|add_payment_info|purchase|add_to_wishlist|view_promotion|select_promotion)$
 ```
 
-3. В GA4 Event tag используйте имя встроенного события dataLayer: `{{Event}}`.
-4. Включите отправку ecommerce data из `dataLayer` (если эта настройка доступна в вашей версии тега). Если нет, создайте Data Layer Variable `ecommerce` и передайте её как параметр события.
-5. Привяжите тег к Google tag из предыдущего шага.
+3. In the GA4 Event tag, use the built-in data-layer event name: `{{Event}}`.
+4. Enable ecommerce data from the `dataLayer` if that option exists in your tag version. Otherwise, create a Data Layer Variable named `ecommerce` and send it as an event parameter.
+5. Connect the event tag to the Google tag created in the previous step.
 
-Для прочих событий создайте второй GA4 Event tag и Custom Event trigger:
+For non-ecommerce events, create a second GA4 Event tag with this Custom Event trigger:
 
 ```regex
 ^(login|sign_up|search|generate_lead|filter_products|sort_products|select_item_variant|remove_from_wishlist|video_start|video_progress|video_pause|password_reset_request)$
 ```
 
-Event Name: `{{Event}}`. Параметры можно передать отдельными Data Layer Variables только для тех полей, которые нужны в отчётах.
+Use `{{Event}}` as the Event Name. Add Data Layer Variables only for the parameters needed in reports.
 
-### 2.4. User properties
+### 2.4 User properties
 
-После demo-входа появляется событие `user_context`:
+After demo sign-in, the storefront emits `user_context`:
 
 ```js
 {
@@ -90,58 +90,58 @@ Event Name: `{{Event}}`. Параметры можно передать отде
 }
 ```
 
-Создайте Custom Event trigger `user_context` и тег, который обновляет user ID / user properties. Email, имя, телефон и адрес в dataLayer не отправляются.
+Create a `user_context` Custom Event trigger and a tag that updates the user ID and user properties. Email, name, phone number, and address are never added to the data layer.
 
-## 3. Установка GA4 напрямую
+## 3. Direct GA4 installation
 
-Включите `analytics.ga4.enabled`, укажите Measurement ID и выключите GTM. Скрипт автоматически:
+Enable `analytics.ga4.enabled`, add the Measurement ID, and disable GTM. The script automatically:
 
-1. задаст consent defaults;
-2. асинхронно подключит `gtag.js`;
-3. выполнит `gtag('config', measurementId)`;
-4. продублирует каждое событие из внутреннего API в `gtag('event', ...)`.
+1. sets the consent defaults;
+2. loads `gtag.js` asynchronously;
+3. runs `gtag('config', measurementId)`;
+4. forwards every internal analytics event to `gtag('event', ...)`.
 
-Для DebugView временно установите `debugMode: true`. Перед production-релизом верните `false`.
+Temporarily set `debugMode: true` for DebugView. Return it to `false` before production release.
 
-## 4. Карта событий
+## 4. Event map
 
-| Этап | Событие | Точка отправки | Основные параметры |
+| Stage | Event | Trigger | Main parameters |
 |---|---|---|---|
-| Каталог | `view_item_list` | рендер / фильтр / сортировка | `item_list_id`, `item_list_name`, `items`, `filter`, `sort` |
-| Каталог | `select_item` | клик по карточке | `item_list_id`, `items` |
-| PDP | `view_item` | открытие quick view | `currency`, `value`, `items`, `source` |
-| PDP | `select_item_variant` | смена цвета | `item_id`, `color` |
-| Wishlist | `add_to_wishlist` | добавление в избранное | `currency`, `value`, `items` |
-| Cart | `add_to_cart` | добавление / +1 | `currency`, `value`, `items`, `source` |
-| Cart | `view_cart` | открытие корзины | `currency`, `value`, `items` |
-| Cart | `remove_from_cart` | удаление / −1 | `currency`, `value`, `items`, `source` |
-| Promo | `select_promotion` | баннер / `MASTER10` | `promotion_id`, `promotion_name` |
-| Checkout | `begin_checkout` | начало оформления | `currency`, `value`, `coupon`, `items` |
-| Checkout | `add_shipping_info` | завершение контактов | `shipping_tier`, `items` |
-| Checkout | `add_payment_info` | завершение доставки | `payment_type`, `shipping_tier`, `items` |
-| Revenue | `purchase` | успешный demo-заказ | `transaction_id`, `value`, `shipping`, `currency`, `coupon`, `items` |
-| Account | `login` | demo-вход | `method` |
-| Account | `sign_up` | demo-регистрация | `method` |
-| Discovery | `search` | отправка поиска / подсказка | `search_term`, `source` |
-| Lead | `generate_lead` | newsletter | `form_name`, `value`, `currency` |
+| Catalog | `view_item_list` | render, filter, or sort | `item_list_id`, `item_list_name`, `items`, `filter`, `sort` |
+| Catalog | `select_item` | product-card click | `item_list_id`, `items` |
+| Product | `view_item` | quick view opens | `currency`, `value`, `items`, `source` |
+| Product | `select_item_variant` | color changes | `item_id`, `color` |
+| Wishlist | `add_to_wishlist` | favorite added | `currency`, `value`, `items` |
+| Cart | `add_to_cart` | item added or quantity increased | `currency`, `value`, `items`, `source` |
+| Cart | `view_cart` | cart opens | `currency`, `value`, `items` |
+| Cart | `remove_from_cart` | item removed or quantity decreased | `currency`, `value`, `items`, `source` |
+| Promotion | `select_promotion` | banner or `MASTER10` | `promotion_id`, `promotion_name` |
+| Checkout | `begin_checkout` | checkout begins | `currency`, `value`, `coupon`, `items` |
+| Checkout | `add_shipping_info` | contact step completes | `shipping_tier`, `items` |
+| Checkout | `add_payment_info` | delivery step completes | `payment_type`, `shipping_tier`, `items` |
+| Revenue | `purchase` | demo order succeeds | `transaction_id`, `value`, `shipping`, `currency`, `coupon`, `items` |
+| Account | `login` | demo sign-in | `method` |
+| Account | `sign_up` | demo registration | `method` |
+| Discovery | `search` | search submit or suggestion | `search_term`, `source` |
+| Lead | `generate_lead` | newsletter form | `form_name`, `value`, `currency` |
 | Content | `video_start`, `video_progress`, `video_pause` | brand story | `video_title`, `video_percent` |
-| Consent | `consent_update` | выбор cookie | `consent_level` и consent flags |
+| Consent | `consent_update` | cookie choice | `consent_level` and consent flags |
 
-Каждый объект в `items` содержит стабильный `item_id`, `item_name`, `item_brand`, `item_category`, list metadata, `price` и `quantity`.
+Every object in `items` includes a stable `item_id`, `item_name`, `item_brand`, `item_category`, list metadata, `price`, and `quantity`.
 
-## 5. Добавление новых отслеживаемых элементов
+## 5. Add tracked elements
 
-Для простого клика без правки JavaScript:
+For a simple click without changing JavaScript:
 
 ```html
 <button
   data-analytics-event="select_promotion"
   data-analytics-params='{"promotion_id":"summer","promotion_name":"Summer 2026"}'>
-  Смотреть предложение
+  View offer
 </button>
 ```
 
-Для сложного сценария используйте единый API:
+For a more complex interaction, use the unified API:
 
 ```js
 window.MASTERCHIL_ANALYTICS.track("share", {
@@ -151,7 +151,7 @@ window.MASTERCHIL_ANALYTICS.track("share", {
 });
 ```
 
-Ecommerce-вызов:
+Ecommerce example:
 
 ```js
 window.MASTERCHIL_ANALYTICS.track("refund", {}, {
@@ -164,39 +164,39 @@ window.MASTERCHIL_ANALYTICS.track("refund", {}, {
 });
 ```
 
-## 6. Проверка до публикации
+## 6. Pre-release validation
 
-1. Откройте сайт с `?debug_analytics=1`.
-2. Пройдите цепочку: catalog → product → cart → checkout → purchase.
-3. В Analytics Lab проверьте порядок событий и экспортируйте JSON.
-4. В GTM откройте Preview / Tag Assistant и повторите цепочку.
-5. Убедитесь, что на каждом ecommerce-событии новый `ecommerce.items`.
-6. В GA4 откройте **Admin → Data display → DebugView**.
-7. Проверьте `currency: EUR`, числовой `value` и уникальный `transaction_id`.
-8. Убедитесь, что событие не отправляется одновременно из GTM и direct gtag.
+1. Open the storefront with `?debug_analytics=1`.
+2. Complete the catalog → product → cart → checkout → purchase journey.
+3. Confirm the event order in Analytics Lab and export the JSON.
+4. Open GTM Preview / Tag Assistant and repeat the journey.
+5. Confirm that every ecommerce event has a fresh `ecommerce.items` array.
+6. Open **Admin → Data display → DebugView** in GA4.
+7. Verify `currency: EUR`, a numeric `value`, and a unique `transaction_id`.
+8. Confirm that the same event is not sent by both GTM and direct gtag.
 
-Google отдельно рекомендует использовать точные имена рекомендованных событий, проверять обязательные параметры и избегать повторного `transaction_id`: повторная покупка с тем же ID будет дедуплицирована.
+Google recommends using exact recommended-event names, validating required parameters, and never reusing a `transaction_id`; a second purchase with the same ID can be deduplicated.
 
-## 7. Пользовательские определения и отчёты
+## 7. Custom definitions and reports
 
-Не регистрируйте стандартные ecommerce-параметры как custom dimensions. Для анализа Masterchil Store имеет смысл создать:
+Do not register standard ecommerce parameters as custom dimensions. Useful Masterchil Store definitions include:
 
 - event-scoped dimensions: `source`, `filter`, `sort`, `color`, `form_name`, `consent_level`;
 - user-scoped dimension: `customer_type`;
-- при production-каталоге — item-scoped dimensions для материала, коллекции или типа подключения.
+- item-scoped dimensions for material, collection, or connection type in a production catalog.
 
-Полезные Explorations:
+Recommended Explorations:
 
 1. `view_item_list → select_item → view_item → add_to_cart → begin_checkout → purchase`;
-2. сравнение conversion rate по `item_list_name`, `source` и устройству;
-3. abandon rate по шагам checkout;
-4. поиск: `search_term → view_item → purchase`;
-5. влияние промо `MASTER10` на AOV и conversion rate.
+2. conversion rate by `item_list_name`, `source`, and device;
+3. abandonment rate by checkout step;
+4. `search_term → view_item → purchase`;
+5. the effect of `MASTER10` on AOV and conversion rate.
 
-## 8. Privacy и production
+## 8. Privacy and production
 
-- Не отправляйте в GA4 email, имя, телефон, адрес, пароль или полный search query с PII.
-- Не помещайте секреты в `config.js`: GTM Container ID и GA4 Measurement ID публичны, серверные ключи — нет.
-- Текст баннера является демонстрационным, а не юридической консультацией. Согласуйте CMP, категории хранения и privacy policy с требованиями ваших регионов.
-- Для нескольких доменов настройте cross-domain measurement в Google tag.
-- Для production purchase отправляйте подтверждение также с backend или используйте стратегию дедупликации по одному стабильному `transaction_id`.
+- Never send email, name, phone number, address, password, or full search queries containing PII to GA4.
+- Never put secrets in `config.js`. GTM Container IDs and GA4 Measurement IDs are public; server keys are not.
+- The consent banner is a demonstration, not legal advice. Align your CMP, storage categories, and privacy policy with the requirements of each operating region.
+- Configure cross-domain measurement in the Google tag when using multiple domains.
+- For production purchases, also send confirmation from the backend or implement deduplication around one stable `transaction_id`.

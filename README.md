@@ -1,58 +1,45 @@
 # Masterchil Store
 
-Готовый статический e-commerce сайт для GitHub Pages: премиальный адаптивный интерфейс, локальные изображения, каталог, поиск, избранное, корзина, промокод, demo checkout, demo-авторизация и полноценный слой событий GA4/GTM.
+A polished static e-commerce storefront built for GitHub Pages. It includes a premium responsive interface, local product imagery, catalog search and filters, favorites, a persistent cart, promo codes, demo authentication and checkout, plus a complete GA4/GTM-ready analytics layer.
 
-Витрина локализована на английском для рынка Германии: валюта EUR, цены с VAT, немецкий телефонный формат и бесплатная доставка от €200.
+The storefront is designed for the German market: English-language UI, EUR pricing, VAT-inclusive totals, German phone formatting, and complimentary delivery over €200.
 
-## Быстрый запуск
+## Live demo
 
-Сборка и зависимости не нужны. Можно дважды щёлкнуть `index.html` или запустить локальный сервер:
+[Open Masterchil Store](https://benderov-insights.github.io/masterchil-store/)
+
+Use promo code `MASTER10` during checkout. To inspect analytics events, add `?debug_analytics=1` to the URL or select **Analytics Lab** in the footer.
+
+## Run locally
+
+No build step or dependencies are required. Open `index.html` directly or start a local server:
 
 ```bash
 python -m http.server 4173
 ```
 
-После этого откройте `http://localhost:4173`.
+Then visit `http://localhost:4173`.
 
-Промокод для проверки: `MASTER10`. Для открытия панели событий добавьте к URL `?debug_analytics=1` или нажмите **Analytics Lab** в футере.
+## Features
 
-## Что работает
+- responsive product catalog with filters and sorting;
+- search by product name, category, and description;
+- quick view with product variant selection;
+- favorites and cart state persisted in `localStorage`;
+- delivery, discount, VAT, and order-total calculations in EUR;
+- three-step demo checkout with a `purchase` event;
+- demo registration and sign-in flows;
+- Consent Mode v2 with full or essential-only consent;
+- `dataLayer` and recommended GA4 e-commerce events;
+- Analytics Lab with event inspection and JSON export;
+- reveal, parallax, marquee, spotlight, and reduced-motion experiences;
+- optimized local WebP artwork with no external image CDN.
 
-- адаптивный каталог с фильтрами и сортировкой;
-- поиск по названию, категории и описанию;
-- быстрый просмотр и выбор варианта товара;
-- избранное и корзина с сохранением в `localStorage`;
-- расчёт доставки, скидки и итоговой суммы;
-- трёхшаговый demo checkout и событие `purchase`;
-- регистрация и вход в демонстрационном режиме;
-- Consent Mode v2 с выбором «все» / «только необходимые»;
-- dataLayer и рекомендованные ecommerce-события GA4;
-- встроенная Analytics Lab с просмотром и экспортом JSON;
-- анимации, параллакс, reveal, marquee, hover spotlight и reduced-motion режим;
-- локальные оптимизированные WebP-изображения без внешних CDN.
+## Analytics setup
 
-## Публикация на GitHub Pages
+Open `js/config.js`, choose one integration method, and enable only that method.
 
-Содержимое этой папки можно положить в корень отдельного репозитория:
-
-```bash
-git init
-git add .
-git commit -m "Launch Masterchil Store"
-git branch -M main
-git remote add origin https://github.com/USERNAME/REPOSITORY.git
-git push -u origin main
-```
-
-В репозитории откройте **Settings → Pages → Build and deployment**, выберите **Deploy from a branch**, затем ветку `main`, папку `/(root)` и сохраните. Это соответствует актуальному способу публикации из ветки в [официальной документации GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
-
-Все пути относительные, поэтому сайт работает как на домене вида `username.github.io`, так и в подпапке `username.github.io/repository/`. Файл `.nojekyll` уже добавлен.
-
-## Подключение аналитики
-
-Откройте `js/config.js`, выберите один способ и включите только его:
-
-### Рекомендуется: Google Tag Manager
+### Recommended: Google Tag Manager
 
 ```js
 gtm: {
@@ -65,7 +52,7 @@ ga4: {
 }
 ```
 
-### Альтернатива: GA4 напрямую
+### Alternative: direct GA4 installation
 
 ```js
 gtm: {
@@ -80,34 +67,38 @@ ga4: {
 }
 ```
 
-Не включайте GTM и прямой GA4 одновременно: это создаст двойные события. Полная карта тегов, параметров, воронок и QA находится в [ANALYTICS.md](ANALYTICS.md).
+Do not enable GTM and direct GA4 at the same time, because that would duplicate events. The complete tag map, event parameters, funnels, and QA checklist are documented in [ANALYTICS.md](ANALYTICS.md).
 
-## Авторизация и оплата
+## Authentication and payments
 
-Сайт рассчитан на статический хостинг. Поэтому текущие регистрация, вход и checkout — безопасные демонстрационные сценарии:
+This project targets static hosting, so registration, sign-in, and checkout are safe demonstration flows:
 
-- пароль не сохраняется;
-- профиль и корзина остаются только в браузере пользователя;
-- реквизиты карты не запрашиваются;
-- заказ создаётся локально и не вызывает списание.
+- passwords are never stored;
+- account and cart data remain in the visitor's browser;
+- card details are never requested;
+- demo orders are created locally and never charge a payment method.
 
-Для production замените обработчик `#auth-form` в `js/app.js` на Firebase Auth, Supabase Auth, Auth0 или собственный API. Заказ и платёж необходимо создавать только на доверенном backend; секретные ключи нельзя размещать в репозитории или клиентском JavaScript.
+For production, replace the `#auth-form` handler in `js/app.js` with Firebase Auth, Supabase Auth, Auth0, or your own API. Orders and payments must be created on a trusted backend. Never expose secret keys in the repository or client-side JavaScript.
 
-## Структура
+## Project structure
 
 ```text
 masterchil-store/
-├── index.html          # семантика и все UI-сценарии
-├── styles.css          # дизайн, адаптивность и анимации
+├── index.html          # semantic markup and interface flows
+├── styles.css          # visual system, responsive layout, and animation
 ├── js/
-│   ├── config.js       # GA4/GTM и параметры магазина
-│   ├── analytics.js    # consent, dataLayer и единый API событий
-│   └── app.js          # каталог, корзина, auth, checkout и UI
-├── assets/             # локальные WebP и favicon
-├── ANALYTICS.md        # подробная схема внедрения GA4/GTM
-└── .nojekyll           # публикация без обработки Jekyll
+│   ├── config.js       # store and GA4/GTM configuration
+│   ├── analytics.js    # consent, dataLayer, and unified event API
+│   └── app.js          # catalog, cart, auth, checkout, and UI behavior
+├── assets/             # local WebP artwork and favicon
+├── ANALYTICS.md        # detailed GA4/GTM implementation guide
+└── .nojekyll           # disables Jekyll processing on GitHub Pages
 ```
 
-## Контент перед запуском
+## Production checklist
 
-Перед реальным запуском замените демонстрационные цены, контакты, ссылки соцсетей, условия доставки/возврата, privacy policy и юридические данные продавца. Также подключите backend для остатков, заказов, аккаунтов и оплаты.
+Before a real launch, replace demo prices, contact details, social links, delivery and returns terms, privacy policy, and seller legal information. Add a backend for inventory, accounts, orders, and payments.
+
+## Deployment
+
+GitHub Pages deploys the `main` branch from `/(root)`. All paths are relative, so the storefront works correctly at the project URL. The included `.nojekyll` file keeps deployment fully static.
