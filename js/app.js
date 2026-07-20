@@ -328,12 +328,6 @@
 
   function bindEvents() {
     document.addEventListener("click", (event) => {
-      const cartTrigger = event.target.closest(".cart-trigger");
-      if (cartTrigger) {
-        event.preventDefault();
-        openCart();
-        return;
-      }
       const scrollButton = event.target.closest("[data-scroll-to]");
       if (scrollButton) {
         document.getElementById(scrollButton.dataset.scrollTo)?.scrollIntoView({ behavior: "smooth" });
@@ -375,6 +369,16 @@
       analytics.track("sort_products", { sort: event.target.value });
     });
 
+    const cartTrigger = $(".cart-trigger");
+    cartTrigger.addEventListener("pointerdown", (event) => {
+      event.preventDefault();
+      openCart();
+    });
+    cartTrigger.addEventListener("click", (event) => {
+      if (event.detail !== 0) return;
+      event.preventDefault();
+      openCart();
+    });
     $(".cart-close").addEventListener("click", () => closeLayer($(".cart-drawer")));
     $(".cart-browse").addEventListener("click", () => { closeLayer($(".cart-drawer")); $("#catalog").scrollIntoView({ behavior: "smooth" }); });
     $(".cart-items").addEventListener("click", (event) => {
